@@ -1,16 +1,18 @@
 const { getById } = require('../users/users-model')
 
+
 function logger(req, res, next) {
-  // console.log(`[${req.method}] ${req.url}`)
+  console.log(`[${req.method}] ${req.url}`)
+  next()
 }
 
 function validateUserId(req, res, next) {
   const { id } = req.params
   getById(id)
   .then(user => {
-    console.log(user)
     if(user){
       req.user = user
+      console.log('validate user id')
       next()
     } else {
       res.status(404).json({
@@ -32,12 +34,22 @@ function validateUser(req, res, next) {
     }
 }
 
-function validatePost(req, res, next) {
-  // DO YOUR MAGIC
+
+
+ function validatePost(req, res, next) {
+   console.log('validate post')
+  if(!req.body.text){
+    res.status(400).json({
+      message: 'missing required text field'
+    })
+  }else{
+    // res.status(200).json(req.body.text) 
+    next()
+  }
 }
 
-// do not forget to expose these functions to other modules
 
+// do not forget to expose these functions to other modules
 module.exports = {
   logger,
   validateUserId,
