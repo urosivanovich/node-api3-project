@@ -1,11 +1,24 @@
-
+const { getById } = require('../users/users-model')
 
 function logger(req, res, next) {
-  // DO YOUR MAGIC
+  // console.log(`[${req.method}] ${req.url}`)
 }
 
 function validateUserId(req, res, next) {
-  // DO YOUR MAGIC
+  const { id } = req.params
+  getById(id)
+  .then(user => {
+    console.log(user)
+    if(user){
+      req.user = user
+      next()
+    } else {
+      res.status(404).json({
+        message: 'user not found'
+      })
+    }
+  })
+  .catch(next)
 }
 
 function validateUser(req, res, next) {

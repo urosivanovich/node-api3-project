@@ -7,12 +7,12 @@ const Posts = require('../posts/posts-model');
 
 // The middleware functions also need to be required
 const {
-      logger,
       validateUserId,
       validateUser,
       validatePost
       } = require('../middleware/middleware');
 const server = require('../server');
+const { json } = require('express/lib/response');
 
 
 
@@ -26,9 +26,10 @@ router.get('/', (req, res, next) => {
   .catch(next)
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', validateUserId, (req, res, next) => {
   // RETURN THE USER OBJECT
   // this needs a middleware to verify user id
+  res.json(req.user)
 });
 
 router.post('/', (req, res) => {

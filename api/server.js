@@ -2,6 +2,7 @@ const express = require('express');
 const server = express();
 
 const userRouter = require('./users/users-router');
+const { logger } = require('../api/middleware/middleware')
 
 server.use(express.json());
 
